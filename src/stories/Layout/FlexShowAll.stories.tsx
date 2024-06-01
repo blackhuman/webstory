@@ -72,7 +72,7 @@ const View = () => {
             setting her mind and forging, setting her mind and forging
           </div>
           <div className={`
-            text-base px-3 bg-white
+            text-base px-3 bg-blue-100
             text-ellipsis whitespace-nowrap overflow-hidden
             peer/def
           `}>中文释义很长的有可能看不到</div>

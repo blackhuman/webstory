@@ -63,6 +63,12 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
+      chromatic:
+        specifier: ^11.5.0
+        version: 11.5.0
+      dotenv-cli:
+        specifier: ^7.4.2
+        version: 7.4.2
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -2045,8 +2051,8 @@ packages:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
 
-  chromatic@11.4.1:
-    resolution: {integrity: sha512-f1Ud4EA7KvNKIIkO/qk/0epiCoyHjcyoejuncilSqC0KAHahmIgrWdZxEu+N8QfqqYbEBc5SrhAjiVWHePXTKw==}
+  chromatic@11.5.0:
+    resolution: {integrity: sha512-mugneDXjkLIrAR+884EXz3lF443nG70XqzCj+6D95h9zFSq5pAEAUOeMeh5V2hUAh8qVar4+US2lsacEYugPnw==}
     hasBin: true
     peerDependencies:
       '@chromatic-com/cypress': ^0.*.* || ^1.0.0
@@ -2275,6 +2281,10 @@ packages:
 
   dom-accessibility-api@0.6.3:
     resolution: {integrity: sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==}
+
+  dotenv-cli@7.4.2:
+    resolution: {integrity: sha512-SbUj8l61zIbzyhIbg0FwPJq6+wjbzdn9oEtozQpZ6kW2ihCcapKVZj49oCT3oPM+mgQm+itgvUQcG5szxVrZTA==}
+    hasBin: true
 
   dotenv-expand@10.0.0:
     resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
@@ -5058,7 +5068,7 @@ snapshots:
 
   '@chromatic-com/storybook@1.5.0(react@18.3.1)':
     dependencies:
-      chromatic: 11.4.1
+      chromatic: 11.5.0
       filesize: 10.1.2
       jsonfile: 6.1.0
       react-confetti: 6.1.0(react@18.3.1)
@@ -6764,7 +6774,7 @@ snapshots:
 
   chownr@2.0.0: {}
 
-  chromatic@11.4.1: {}
+  chromatic@11.5.0: {}
 
   citty@0.1.6:
     dependencies:
@@ -6973,6 +6983,13 @@ snapshots:
   dom-accessibility-api@0.5.16: {}
 
   dom-accessibility-api@0.6.3: {}
+
+  dotenv-cli@7.4.2:
+    dependencies:
+      cross-spawn: 7.0.3
+      dotenv: 16.4.5
+      dotenv-expand: 10.0.0
+      minimist: 1.2.8
 
   dotenv-expand@10.0.0: {}
 
