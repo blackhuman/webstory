@@ -1,0 +1,94 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as View from './FlexShowAll.stories';
+
+<Meta of={View} />
+
+# Flex下的hover
+
+这里的核心是把span再包一层div，因为flex中的item的width是不能超过其自身占位的，但是非flex的div中的div是可以超出的。
+
+围绕Flex的第一个元素（英文短语）展开的配置，重点配置如下
+- after:content 也会计入width
+  - 如果要在网页上展示空格，则在编辑器里就得使用下面的特殊符号，否则会被编辑器自动去掉[空格符](https://stackoverflow.com/questions/5467605/add-a-space-after-an-element-using-after)，
+    - `&nbsp;`：空格，也可以是`&#8203;`，`&ZeroWidthSpace;`，`\0020`
+    - `&ensp;`：半角空格
+    - `&emsp;`：全角空格
+    - `&thinsp;`：窄空格
+    - `&hairsp;`：细空格
+  - 也可以配合`white-space: pre;`属性来使用字面空格
+- 任何border/padding/margin都会计入width，不管box-sizing是什么
+- outline只能包围四周，不能只指定包围一边
+- 目前只有box-shadow能使用，阴影部分不计入元素的width，通过定义只在x角度上偏移来解决（正整数是向右偏移）
+  - 在当前场景下，也能使用padding-left，同时去掉flex的gap配置，来打到同样的效果
+- 下面使用div>span的方式，这样能透传text-ellipsis配置，同时还能只为内部文字配置background颜色
+- hover:relative是必须的，否则flex中的第一个元素中超出的部分不会覆盖第二个元素
+
+```jsx
+<div className={`
+    min-w-28 max-w-[60%] 
+    inline-block overflow-hidden text-base font-bold 
+    whitespace-nowrap text-ellipsis bg-white 
+    hover:overflow-visible 
+    hover:relative
+  `}>
+  <span className="bg-white shadow-[10px_0px_5px_white]">
+    setting her mind and forging
+  </span>
+</div>
+```
+
+# clientWidth/scrollWidth/offsetWidth
+
+css的pesudo class只能依据元素“状态”，不能依据“计算值”，是否overflow是一个计算值，并没有被定义成状态，所以目前没有可以处理overflow的persudo class。
+目前唯一的方式就是使用js来通过元素的尺寸来判断是否有overflow发生，一般使用`clientWidth-offsetWidth<0`来判断是否有overflow发生，可[参考文章](https://stackoverflow.com/questions/21064101/understanding-offsetwidth-clientwidth-scrollwidth-and-height-respectively)。
+
+# container query
+
+第一次听说这个概念，大概意思是之前的media query是根据整个窗口大小来决定是否应用某些样式的；而container query则是根据指定元素（一般是父元素）的尺寸来决定是否应用某些样式的。
+
+# Flex下的grow/shrink/basis
+
+[参考文章](https://css-tricks.com/understanding-flex-grow-flex-shrink-and-flex-basis/)
+
+简单记忆grow/shrink：
+- 在宽度充足的情况下，grow生效，0代表不扩展，其他代表可扩展，值越大，扩展的比例就越多
+- 在宽度不足的情况下，shrink生效，0代表不缩小，其他代表可缩小，值越大，缩小的比例就越多
+
+basis代表元素的基础宽度，但是还会收到元素本身的其他与宽度相关的配置影响：
+- width/max-width/min-width，这些都会影响到flex的计算
+- overflow-xx，这些也会影响到flex的计算，比如如果使用了overflow-hidden，那么flex计算元素宽度时，宽度值可能小一些
+
+# Flex下的对齐
+
+- align-items：控制元素在交叉轴上的对齐方式，可以想象成元素之间对齐的方式
+- justify-content：控制元素在主轴上的对齐方式，这个严格说是把这些元素与父元素之间的对齐方式
+
+# CSS中combinator的妙用
+
+下面使用tailwindcss表示
+
+```jsx
+<div>
+  <div className="peer"></div>
+  <div className="peer-hover:bg-blue-50"></div>
+</div>
+```
+
+上面的代码会生成两个css描述，其中"~"是"[Subsequent-sibling combinator](https://developer.mozilla.org/en-US/docs/Web/CSS/Subsequent-sibling_combinator)"，
+用来选择类peer后面的某个元素。到这里神奇的地方就出现了，可以在前面这个选择器描述上添加pseudo-class，就达到了“前面的元素在hover状态时，这整个css selector才会生效“的效果。
+
+```css
+.peer:hover ~ .peer-hover\:block {
+    display: block;
+}
+.peer:hover ~ .peer-hover\:pointer-events-none {
+    pointer-events: none;
+}
+```
+
+![d](src/stories/Layout/FlexShowAll-1.png)
+
+不过使用"~"有一个问题，就是如果一个div的子节点中，出现多个peer类，选择器就不知道用哪个peer了。
+
+<Canvas of={View.Main} />

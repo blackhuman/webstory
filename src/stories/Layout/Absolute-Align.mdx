@@ -1,0 +1,11 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as View from './Absolute-Align.stories';
+
+<Meta of={View} />
+
+# Vertical Align Element
+
+如果由于字体大小的原因，absolute类型的元素无法垂直居中显示，需要使用`top: 50%; transform: translateY(-50%);`的方式来实现。
+
+<Canvas of={View.Main} />
